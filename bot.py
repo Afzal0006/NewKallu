@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 # ==== CONFIG ====
 BOT_TOKEN = "8051082366:AAGj6jQOhNxxXwD-6mWP5Pnf7jp9W7Fgfmo"
-MONGO_URI = "mongodb+srv://Newdemodetabade:Newdemodetabade@cluster0.vp23uhz.mongodb.net/?appName=Cluster0"
+MONGO_URI = "mongodb+srv://afzal99550:afzal99550@cluster0.aqmbh9q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 OWNER_IDS = [7270006608]  # <-- Apna Telegram ID yaha daalna hai
 
 # ==== MongoDB Setup ====
