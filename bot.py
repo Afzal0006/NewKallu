@@ -4,8 +4,8 @@ from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQuer
 from pymongo import MongoClient
 
 # ==== CONFIG ====
-BOT_TOKEN = "8183718017:AAHg1l7b1Zg62EWiHQTjFrWsCQBakcJy9P0"
-MONGO_URI = "mongodb+srv://afzal99550:afzal99550@cluster0.aqmbh9q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+BOT_TOKEN = "8051082366:AAGj6jQOhNxxXwD-6mWP5Pnf7jp9W7Fgfmo"
+MONGO_URI = "mongodb+srv://Newdemodetabade:Newdemodetabade@cluster0.vp23uhz.mongodb.net/?appName=Cluster0"
 OWNER_IDS = [8280018677]  # <-- Apna Telegram ID yaha daalna hai
 
 # ==== MongoDB Setup ====
@@ -133,42 +133,73 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ==== Broadcast Command ====
 # /broadcast command
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id != OWNER_ID:
+    if update.effective_user.id not in OWNER_IDS:
         return await update.message.reply_text("⛔ Only owner can use this command!")
 
-    message = None
+    # Check reply message
+    target = update.message.reply_to_message
 
-    # 🔹 Case 1: Agar kisi message ko reply kiya hai
-    if update.message.reply_to_message:
-        if update.message.reply_to_message.text:
-            message = update.message.reply_to_message.text
-        elif update.message.reply_to_message.caption:
-            message = update.message.reply_to_message.caption
-
-    # 🔹 Case 2: Agar direct /broadcast <message> likha hai
-    else:
+    # Agar reply nahi kiya, fir /broadcast text se bhej sakte ho
+    if not target:
         text = update.message.text
-        if text.lower().startswith("/broadcast "):
-            message = text[len("/broadcast "):].strip()
+        if text.startswith("/broadcast "):
+            msg = text.replace("/broadcast ", "").strip()
+            if not msg:
+                return await update.message.reply_text("⚠️ Broadcast message empty!")
+            
+            users = users_col.find()
+            ok = 0
+            fail = 0
+            for u in users:
+                try:
+                    await context.bot.send_message(u["_id"], msg)
+                    ok += 1
+                except:
+                    fail += 1
+            return await update.message.reply_text(f"📢 Done\n\n✅ Sent: {ok}\n❌ Failed: {fail}")
 
-    if not message:
-        return await update.message.reply_text(
-            "Usage:\n"
-            "➡️ `/broadcast your message here`\n"
-            "➡️ `/broadcast` (reply to a message)"
-        )
+        return await update.message.reply_text("Reply to a message or use: /broadcast <text>")
 
-    groups = groups_col.find()
-    success, fail = 0, 0
-    for g in groups:
+    # ----- MEDIA BROADCAST -----
+    users = users_col.find()
+    ok = 0
+    fail = 0
+
+    for u in users:
         try:
-            await context.bot.send_message(chat_id=g["chat_id"], text=message)
-            success += 1
-        except Exception as e:
-            logging.warning(f"Failed: {g['chat_id']} ({e})")
+            chat_id = u["_id"]
+
+            # PHOTO
+            if target.photo:
+                file_id = target.photo[-1].file_id
+                await context.bot.send_photo(chat_id, file_id, caption=target.caption or "")
+
+            # VIDEO
+            elif target.video:
+                await context.bot.send_video(chat_id, target.video.file_id, caption=target.caption or "")
+
+            # DOCUMENT
+            elif target.document:
+                await context.bot.send_document(chat_id, target.document.file_id, caption=target.caption or "")
+
+            # ANIMATION (GIF)
+            elif target.animation:
+                await context.bot.send_animation(chat_id, target.animation.file_id, caption=target.caption or "")
+
+            # TEXT
+            elif target.text:
+                await context.bot.send_message(chat_id, target.text)
+
+            # OTHER TYPES
+            else:
+                await update.message.reply_text("⚠️ This media type is not supported yet.")
+
+            ok += 1
+
+        except:
             fail += 1
 
-    await update.message.reply_text(f"✅ Sent: {success} | ❌ Failed: {fail}")
+    await update.message.reply_text(f"📢 Broadcast Completed\n\n✅ Sent: {ok}\n❌ Failed: {fail}")
 
 
 # ==== Stats Command ====
