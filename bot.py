@@ -16,7 +16,7 @@ blocked_col = db["blocked_users"]
 
 # ==== Image URLs ====
 START_IMAGE = "https://i.ibb.co/Mk5jTp1s/x.jpg"
-PREMIUM_IMAGE = "https://i.ibb.co/WSzsgXQ/x.jpg"
+PREMIUM_IMAGE = "https://i.ibb.co/zhBnnT8P/x.jpg"
 
 # ==== Messages ====
 START_MESSAGE = (
