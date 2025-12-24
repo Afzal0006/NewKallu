@@ -4,9 +4,9 @@ from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQuer
 from pymongo import MongoClient
 
 # ==== CONFIG ====
-BOT_TOKEN = "8370711516:AAEtXRjArAKwTlcZfx4dzd5E_aiIvcs4yvU"
+BOT_TOKEN = "8433390465:AAEZWa8wcYi_Kvil7nNIeTgqWwJ4DJbIeyc"
 MONGO_URI = "mongodb+srv://afzal99550:afzal99550@cluster0.aqmbh9q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-OWNER_IDS = [8280018677]  
+OWNER_IDS = [8517503645]  
 
 # ==== MongoDB Setup ====
 mongo = MongoClient(MONGO_URI)
@@ -30,7 +30,7 @@ START_MESSAGE = (
 PREMIUM_MESSAGE = (
     "💎 Premium Access Details\n\n"
     "Pay just ₹99/- and get lifetime access!\n\n"
-    "Send your payment screenshot to @mmsbhai069 ✅"
+    "Send your payment screenshot to @mmswaladesi ✅"
 )
 
 # ==== Save Users in Mongo ====
