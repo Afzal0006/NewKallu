@@ -98,8 +98,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await save_user(update)
     keyboard = [
         [InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")],
-        [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/mmsbhaidemo")],
-        [InlineKeyboardButton("✅ Proofs", url="https://t.me/mmsbhaiproof69")]
+        [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/DEMOBOT_X")],
+        [InlineKeyboardButton("✅ Proofs", url="https://t.me/desivideoproof")]
     ]
     await update.message.reply_photo(photo=START_IMAGE, caption=START_MESSAGE, reply_markup=InlineKeyboardMarkup(keyboard))
 
@@ -112,8 +112,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "get_premium":
         keyboard = [
             [InlineKeyboardButton("🔙 Back", callback_data="back")],
-            [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/mmsbhaidemo")],
-            [InlineKeyboardButton("✅ Proofs", url="https://t.me/mmsbhaiproof69")]
+            [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/DEMOBOT_X")],
+            [InlineKeyboardButton("✅ Proofs", url="https://t.me/desivideoproof")]
         ]
         await query.edit_message_media(
             media=InputMediaPhoto(PREMIUM_IMAGE, caption=PREMIUM_MESSAGE),
@@ -122,8 +122,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "back":
         keyboard = [
             [InlineKeyboardButton("💎 Get Premium", callback_data="get_premium")],
-            [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/mmsbhaidemo")],
-            [InlineKeyboardButton("✅ Proofs", url="https://t.me/mmsbhaiproof69")]
+            [InlineKeyboardButton("🎥 Demo Channel", url="https://t.me/DEMOBOT_X")],
+            [InlineKeyboardButton("✅ Proofs", url="https://t.me/desivideoproof")]
         ]
         await query.edit_message_media(
             media=InputMediaPhoto(START_IMAGE, caption=START_MESSAGE),
